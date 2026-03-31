@@ -1,0 +1,16 @@
+__pycache__
+notes
+
+.env
+
+.openclaw/*.json
+.openclaw/*.bak
+.openclaw/*
+!.openclaw/workspace
+.openclaw/workspace/*
+!.openclaw/openclaw.json
+!.openclaw/workspace/skills
+!.openclaw/workspace/*.md
+.openclaw/workspace/skills/**/.clawhub
+
+/tmp

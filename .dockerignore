@@ -1,0 +1,9 @@
+*.log
+.git
+.gitignore
+Makefile
+chrome.vbs
+docker-compose.yml
+tmp
+notes
+.openclaw

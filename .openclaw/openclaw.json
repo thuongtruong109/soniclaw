@@ -1,0 +1,184 @@
+{
+  "meta": {
+    "lastTouchedVersion": "2026.3.23-1",
+    "lastTouchedAt": "2026-03-24T04:13:21.152Z"
+  },
+  "wizard": {
+    "lastRunAt": "2026-03-21T10:24:01.309Z",
+    "lastRunVersion": "2026.3.13",
+    "lastRunCommand": "onboard",
+    "lastRunMode": "local"
+  },
+  "env": {
+    "shellEnv": {
+      "enabled": true,
+      "timeoutMs": 15000
+    }
+  },
+  "browser": {
+    "enabled": true,
+    "cdpUrl": "http://192.168.65.254:9222",
+    "headless": false,
+    "noSandbox": true,
+    "defaultProfile": "remote",
+    "ssrfPolicy": {
+      "dangerouslyAllowPrivateNetwork": true
+    },
+    "profiles": {
+      "remote": {
+        "cdpUrl": "http://192.168.65.254:9222",
+        "color": "#Ff0000"
+      }
+    }
+  },
+  "auth": {
+    "profiles": {
+      "anthropic:default": {
+        "provider": "anthropic",
+        "mode": "api_key"
+      }
+    }
+  },
+  "agents": {
+    "defaults": {
+      "model": {
+        "primary": "anthropic/claude-haiku-4-5"
+      },
+      "models": {
+        "anthropic/claude-sonnet-4-6": {},
+        "anthropic/claude-haiku-4-5": {}
+      },
+      "workspace": "/root/.openclaw/workspace",
+      "heartbeat": {
+        "every": "24h",
+        "lightContext": true
+      },
+      "contextPruning": {
+        "mode": "cache-ttl",
+        "ttl": "1h"
+      }
+    },
+    "list": [
+      {
+        "id": "main",
+        "default": true,
+        "identity": {
+          "name": "CEO",
+          "theme": "Professional work assistant 💼",
+          "emoji": "💼"
+        }
+      },
+      {
+        "id": "light",
+        "workspace": "~/.openclaw/workspace-light",
+        "identity": {
+          "name": "Atlas",
+          "theme": "Personal assistant 🐙",
+          "emoji": "🐙"
+        },
+        "model": {
+          "primary": "anthropic/claude-haiku-4-5"
+        }
+      }
+    ]
+  },
+  "tools": {
+    "profile": "coding",
+    "web": {
+      "search": {
+        "enabled": true,
+        "provider": "gemini"
+      },
+      "fetch": {
+        "enabled": true
+      }
+    }
+  },
+  "commands": {
+    "native": "auto",
+    "nativeSkills": "auto",
+    "restart": true,
+    "ownerDisplay": "raw"
+  },
+  "session": {
+    "dmScope": "per-channel-peer"
+  },
+  "hooks": {
+    "internal": {
+      "enabled": true,
+      "entries": {
+        "boot-md": {
+          "enabled": true
+        },
+        "bootstrap-extra-files": {
+          "enabled": true
+        },
+        "command-logger": {
+          "enabled": true
+        },
+        "session-memory": {
+          "enabled": true
+        }
+      }
+    }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "dmPolicy": "pairing",
+      "botToken": "${TELEGRAM_BOT_TOKEN}",
+      "groupPolicy": "allowlist",
+      "streaming": "partial"
+    }
+  },
+  "gateway": {
+    "port": 18789,
+    "mode": "local",
+    "bind": "lan",
+    "controlUi": {
+      "allowedOrigins": ["http://localhost:18789", "http://127.0.0.1:18789"]
+    },
+    "auth": {
+      "mode": "token",
+      "token": "${GATEWAY_TOKEN}"
+    },
+    "tailscale": {
+      "mode": "off",
+      "resetOnExit": false
+    },
+    "nodes": {
+      "denyCommands": [
+        "camera.snap",
+        "camera.clip",
+        "screen.record",
+        "contacts.add",
+        "calendar.add",
+        "reminders.add",
+        "sms.send"
+      ]
+    }
+  },
+  "skills": {
+    "install": {
+      "nodeManager": "npm"
+    }
+  },
+  "plugins": {
+    "entries": {
+      "telegram": {
+        "enabled": true
+      },
+      "browser": {
+        "enabled": true
+      },
+      "google": {
+        "enabled": true,
+        "config": {
+          "webSearch": {
+            "apiKey": "${GOOGLE_WEB_SEARCH_API_KEY}"
+          }
+        }
+      }
+    }
+  }
+}

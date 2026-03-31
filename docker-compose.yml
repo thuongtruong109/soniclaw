@@ -1,0 +1,16 @@
+services:
+  soniclaw:
+    image: thuongtruong1009/soniclaw
+    container_name: soniclaw
+    build: .
+    ports:
+      - "22:22"
+      - "18789:18789"
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./.openclaw:/root/.openclaw
+      - ./tmp:/tmp
+    environment:
+      - NODE_ENV=production
