@@ -1,13 +1,24 @@
+SERVICE ?= soniclaw
+
+cmd:
+	docker compose exec $(SERVICE) sh -c "openclaw $(filter-out $@,$(MAKECMDGOALS))"
+
+%:
+	@:
+
 chrome:
 	cscript //nologo chrome.vbs
 
-start:
+run:
 	docker-compose down
 	docker-compose up -d --build
 	cscript //nologo chrome.vbs
 
 stop:
-	docker stop soniclaw
+	docker stop $(SERVICE)
 
 restart:
-	docker restart soniclaw
+	docker restart $(SERVICE)
+
+clean:
+	rm -rfv -- tmp .openclaw/tasks .openclaw/media .openclaw/logs .openclaw/subagents .openclaw/workspace/memory .openclaw/workspace/exports

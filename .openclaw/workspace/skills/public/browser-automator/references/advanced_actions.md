@@ -13,6 +13,7 @@ Use your **already-running Chrome** with your logins and sessions intact.
 **Step 1: Enable Remote Debugging in Chrome**
 
 Go to one of these URLs in Chrome:
+
 - Chrome: `chrome://inspect`
 - Edge: `edge://inspect`
 - Brave: `brave://inspect`
@@ -22,6 +23,7 @@ Enable "Remote debugging" if not already enabled.
 **Step 2: Configure in openclaw.json**
 
 Add to `~/.openclaw/openclaw.json`:
+
 ```json
 {
   "browser": {
@@ -50,10 +52,10 @@ openclaw browser --browser-profile user screenshot --full-page
 
 #### Benefits
 
-✅ **No Login Needed** — Already signed in  
-✅ **Real Sessions** — Your saved logins, cookies, extensions  
-✅ **Faster Automation** — Skip authentication steps  
-✅ **Real-World Testing** — Test with actual user data  
+✅ **No Login Needed** — Already signed in
+✅ **Real Sessions** — Your saved logins, cookies, extensions
+✅ **Faster Automation** — Skip authentication steps
+✅ **Real-World Testing** — Test with actual user data
 
 #### How It Works
 
@@ -65,6 +67,7 @@ openclaw browser --browser-profile user screenshot --full-page
 #### Troubleshooting Chrome MCP
 
 **Issue: "Chrome not found"**
+
 ```bash
 # 1. Make sure Chrome is running
 ps aux | grep chrome
@@ -76,6 +79,7 @@ google-chrome --version
 ```
 
 **Issue: "Allow" prompt never appears**
+
 ```bash
 # 1. Chrome might be minimized
 # 2. Click Chrome window to focus
@@ -84,6 +88,7 @@ google-chrome --version
 ```
 
 **Issue: "Connection refused" or "Cannot attach"**
+
 ```bash
 # 1. Verify Chrome is still running
 # 2. Check chrome://inspect - your instance should be listed
@@ -130,7 +135,7 @@ Setup different profiles for each:
       "chrome": {
         "driver": "existing-session",
         "attachOnly": true,
-        "color": "#4285F4"  // Google blue
+        "color": "#4285F4" // Google blue
       },
       "brave": {
         "driver": "existing-session",
@@ -150,6 +155,7 @@ Setup different profiles for each:
 ```
 
 Then use:
+
 ```bash
 openclaw browser --browser-profile chrome navigate https://example.com
 openclaw browser --browser-profile brave navigate https://example.com
@@ -158,21 +164,21 @@ openclaw browser --browser-profile edge navigate https://example.com
 
 #### Chrome DevTools MCP vs Isolated Browser
 
-| Feature | Chrome MCP (`user`) | Isolated (`openclaw`) |
-|---------|--------------------|-----------------------|
-| Requires Chrome running | Yes | No |
-| Uses your logins | Yes | No |
-| Needs approval first | Yes | No |
-| Can access all sites | Yes | Yes |
-| Isolated from personal data | No | Yes |
-| Best for | Your own accounts | Testing, untrusted |
-| Risk | High (access to everything) | Low (isolated) |
+| Feature                     | Chrome MCP (`user`)         | Isolated (`openclaw`) |
+| --------------------------- | --------------------------- | --------------------- |
+| Requires Chrome running     | Yes                         | No                    |
+| Uses your logins            | Yes                         | No                    |
+| Needs approval first        | Yes                         | No                    |
+| Can access all sites        | Yes                         | Yes                   |
+| Isolated from personal data | No                          | Yes                   |
+| Best for                    | Your own accounts           | Testing, untrusted    |
+| Risk                        | High (access to everything) | Low (isolated)        |
 
 ---
 
 ## File Operations
 
-### Download Files
+### Download Files (Buttons/Links)
 
 Trigger file downloads:
 
@@ -189,6 +195,20 @@ openclaw browser waitfordownload "Report.pdf" --timeout-ms 10000
 ```
 
 Downloads go to `/tmp/openclaw/downloads/`.
+
+### Download Images (Direct URL/No Button)
+
+If analyzing an image that doesn't have a download file action, fetch its `src` and download it directly via standard CLI tools (e.g. `curl`):
+
+```bash
+openclaw browser snapshot --interactive
+# [ref=e12] img: "Product Picture"
+
+openclaw browser evaluate --fn '(el) => el.src' --ref e12
+# https://example.com/images/prod123.jpg
+
+curl -o /tmp/openclaw/downloads/prod123.jpg "https://example.com/images/prod123.jpg"
+```
 
 ### Upload Files
 
@@ -227,6 +247,7 @@ openclaw browser dialog --prompt "my response"
 ```
 
 **Workflow:**
+
 1. Arm the dialog handler
 2. Click button that triggers dialog
 3. Dialog is automatically handled
@@ -255,6 +276,7 @@ openclaw browser evaluate --fn 'document.querySelectorAll(".item").length'
 ```
 
 **Note:** `evaluate` is powerful but can be tricky. Use it for:
+
 - Querying JS state
 - Getting computed values
 - Checking window conditions
@@ -304,6 +326,7 @@ openclaw browser pdf --path /tmp/page.pdf
 ```
 
 PDF output goes to stdout or specified path. Useful for:
+
 - Archiving pages
 - Creating reports
 - Document processing
@@ -334,6 +357,7 @@ openclaw browser responsebody "**/api/**" --max-chars 10000
 ```
 
 Useful for:
+
 - Scraping API data
 - Verifying API responses
 - Debugging network issues
@@ -364,6 +388,7 @@ openclaw browser errors --clear
 ```
 
 Useful for:
+
 - Debugging page issues
 - Verifying no JS errors
 - Understanding page state
@@ -388,11 +413,13 @@ openclaw browser trace stop
 ```
 
 Open trace in [Playwright Inspector](https://playwright.dev/docs/trace-viewer):
+
 ```bash
 npx playwright show-trace /tmp/openclaw/trace.zip
 ```
 
 Trace includes:
+
 - Network timeline
 - Screenshots at each step
 - DOM snapshots
@@ -407,6 +434,7 @@ openclaw browser highlight e5
 ```
 
 Shows what Playwright is targeting. Useful when:
+
 - Click/type fails
 - You're not sure which element is `e5`
 - Multiple similar elements exist

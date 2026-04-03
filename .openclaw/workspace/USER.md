@@ -2,7 +2,7 @@
 
 - **Name:** Ahihi
 - **What to call them:** You
-- **Timezone:** Asia/Ho_Chi_Minh (UTC+7)
+- **Timezone:** Asia/Ho_Chi_Minh
 
 ## Context
 
@@ -19,10 +19,4 @@ The more you know, the better you can help. But remember — you're learning abo
 
 - Budget
 - Acceptable risk
-- Team vs solo
 - Desired level of automation
-
-## Notes
-
-- Always separate strategic decisions from daily operations
-- Always suggest ways to reduce manual work

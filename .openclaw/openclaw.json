@@ -1,11 +1,11 @@
 {
   "meta": {
-    "lastTouchedVersion": "2026.3.23-1",
-    "lastTouchedAt": "2026-03-24T04:13:21.152Z"
+    "lastTouchedVersion": "2026.4.1",
+    "lastTouchedAt": "2026-04-02T03:17:16.412Z"
   },
   "wizard": {
-    "lastRunAt": "2026-03-21T10:24:01.309Z",
-    "lastRunVersion": "2026.3.13",
+    "lastRunAt": "2026-04-02T03:17:16.374Z",
+    "lastRunVersion": "2026.4.1",
     "lastRunCommand": "onboard",
     "lastRunMode": "local"
   },
@@ -25,6 +25,9 @@
       "dangerouslyAllowPrivateNetwork": true
     },
     "profiles": {
+      "default": {
+        "type": "chromium"
+      },
       "remote": {
         "cdpUrl": "http://192.168.65.254:9222",
         "color": "#Ff0000"
@@ -36,15 +39,25 @@
       "anthropic:default": {
         "provider": "anthropic",
         "mode": "api_key"
+      },
+      "openai-codex:khuongoanhquachoanh1659@outlook.com": {
+        "provider": "openai-codex",
+        "mode": "oauth",
+        "email": "khuongoanhquachoanh1659@outlook.com"
       }
     }
   },
   "agents": {
     "defaults": {
       "model": {
-        "primary": "anthropic/claude-haiku-4-5"
+        "primary": "openai-codex/gpt-5.4",
+        "fallbacks": [
+          "anthropic/claude-haiku-4-5",
+          "anthropic/claude-sonnet-4-6"
+        ]
       },
       "models": {
+        "openai-codex/gpt-5.4": {},
         "anthropic/claude-sonnet-4-6": {},
         "anthropic/claude-haiku-4-5": {}
       },
@@ -55,7 +68,10 @@
       },
       "contextPruning": {
         "mode": "cache-ttl",
-        "ttl": "1h"
+        "ttl": "30m"
+      },
+      "sandbox": {
+        "mode": "off"
       }
     },
     "list": [
@@ -78,6 +94,9 @@
         },
         "model": {
           "primary": "anthropic/claude-haiku-4-5"
+        },
+        "params": {
+          "cacheRetention": "none"
         }
       }
     ]
@@ -92,9 +111,15 @@
       "fetch": {
         "enabled": true
       }
-    }
+    },
+    "exec": {
+      "security": "full",
+      "ask": "off"
+    },
+    "allow": ["exec"]
   },
   "commands": {
+    "text": true,
     "native": "auto",
     "nativeSkills": "auto",
     "restart": true,
@@ -158,6 +183,20 @@
       ]
     }
   },
+  "security": {
+    "allowlist": {
+      "exec": ["openclaw browser*", "node", "bash"],
+      "browser": [
+        "navigate",
+        "click",
+        "type",
+        "screenshot",
+        "snapshot",
+        "wait",
+        "fill"
+      ]
+    }
+  },
   "skills": {
     "install": {
       "nodeManager": "npm"
@@ -168,9 +207,6 @@
       "telegram": {
         "enabled": true
       },
-      "browser": {
-        "enabled": true
-      },
       "google": {
         "enabled": true,
         "config": {
@@ -178,7 +214,11 @@
             "apiKey": "${GOOGLE_WEB_SEARCH_API_KEY}"
           }
         }
+      },
+      "browser": {
+        "enabled": true
       }
-    }
+    },
+    "allow": ["telegram", "browser", "google"]
   }
 }

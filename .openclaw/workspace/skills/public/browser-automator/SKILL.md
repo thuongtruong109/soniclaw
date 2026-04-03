@@ -196,17 +196,27 @@ openclaw browser wait --load networkidle
 ### Workflow 3: Screenshot & Monitoring
 
 ```bash
-openclaw browser screenshot --full-page
-openclaw browser snapshot --interactive --labels   # overlay refs on screenshot
-openclaw browser screenshot --ref e12             # element screenshot
+openclaw browser screenshot --full-page                   # full page screenshot (Do NOT use this for specific regions)
+openclaw browser snapshot --interactive --labels          # overlay refs on screenshot
+openclaw browser screenshot --ref e12                     # specific element/region screenshot (Use this when user asks to capture a specific area)
+openclaw browser screenshot --selector ".my-class"        # specific region via CSS selector
 ```
 
-### Workflow 4: File Download
+### Workflow 4: File Download & Image Fetching
 
 ```bash
-openclaw browser download e12 report.pdf          # arm download, click triggers it
-openclaw browser waitfordownload report.pdf        # wait for completion
+openclaw browser download e12 report.pdf                  # arm download, click triggers it
+openclaw browser waitfordownload report.pdf               # wait for completion
 # File at: /tmp/openclaw/downloads/report.pdf
+```
+
+**Note on downloading images directly from a webpage without a download button:**
+Nếu user yêu cầu tải ảnh từ web (không có nút download), hãy parse URL của ảnh qua HTML hoặc snapshot, sau đó dùng `curl` hoặc `wget` để tải ảnh đó về server thay vì dùng lệnh browser download.
+Ví dụ:
+
+```bash
+openclaw browser evaluate --fn '(el) => el.src' --ref e5
+curl -o /tmp/openclaw/downloads/image.jpg "<URL_TỪ_KẾT_QUẢ_TRÊN>"
 ```
 
 ### Workflow 5: File Upload

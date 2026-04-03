@@ -56,8 +56,8 @@ fi
 echo "[INFO] Starting SSH server..." >&2
 /usr/sbin/sshd
 
-echo "[INFO] Starting OpenClaw browser..." >&2
-openclaw browser start
+echo "[INFO] Starting gateway..." >&2
+exec openclaw gateway
 
-echo "[INFO] Container ready. OpenClaw automation active." >&2
-tail -f /dev/null
+# echo "[INFO] Container ready. OpenClaw automation active." >&2
+# tail -f /dev/null

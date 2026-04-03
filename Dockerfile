@@ -1,9 +1,9 @@
-FROM ubuntu:resolute-20260108
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -y git curl net-tools nano openssh-server jq iproute2 && \
+    apt-get install -y git curl net-tools nano openssh-server jq && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir -p /var/run/sshd && \

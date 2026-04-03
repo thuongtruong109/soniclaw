@@ -11,27 +11,17 @@
 
 **When to use:**
 
-- User asks to navigate to a URL
-- User asks to search/find something
-- User asks to click, type, fill forms
-- User asks to snapshot/scrape/monitor web pages
-- User asks for screenshots or page inspection
+- Users asks to interact with a website, navigate to a URL, search/find something, click, type, fill forms, snapshot/scrape/monitor web pages, screenshots/page/specific area inspection...
 
 ## ⏰ Timezone Configuration
 
-**Current Timezone:** Asia/Ho_Chi_Minh (UTC+7)
-
-**Can pre-check to get current local time exactly:**
+- ❌ Do NOT use `session_status` time (it is in UTC, not local time).
+- ✅ ALWAYS use `timezone_utils.py` for time calculations.
+- Current Timezone: Asia/Ho_Chi_Minh (UTC+7). Can pre-check to get current local time exactly:
 
 ```bash
 bash /root/.openclaw/workspace/scripts/check-timezone.sh
 ```
-
-**Important notes:**
-
-- ❌ Do NOT use `session_status` time (it is in UTC, not local time).
-- ✅ ALWAYS use `timezone_utils.py` for time calculations.
-- ✅ Check `USER.md` before processing any data related to dates and times.
 
 **When to use:**
 

@@ -7,7 +7,6 @@ Before doing anything else:
 1. Read `SOUL.md` — this is who you are
 2. Read `USER.md` — this is who you're helping
 3. Read `memory/YYYY-MM-DD.md` (today + yesterday) for recent context
-4. **If in MAIN SESSION** (direct chat with your human): Also read `MEMORY.md`
 
 Don't ask permission. Just do it.
 
@@ -37,7 +36,6 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - When someone says "remember this" → update `memory/YYYY-MM-DD.md` or relevant file
 - When you learn a lesson → update AGENTS.md, TOOLS.md, or the relevant skill
 - When you make a mistake → document it so future-you doesn't repeat it
-- **Text > Brain** 📝
 
 ## Red Lines
 
@@ -46,16 +44,9 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 - `trash` > `rm` (recoverable beats gone forever)
 - When in doubt, ask.
 
-## External vs Internal
+## Config policy
 
-- **Safe to do freely:** Read/search
-
-- **Ask before:** Anything external or sends data
-
-## EXPORT_CONFIG - File Export Policy
-
-- All exported files (images, listings, reports, etc.) from any skill are stored in the `exports/` folder instead of the workspace root. This keeps the workspace organized: configuration/identity files such as USER.md, IDENTITY.md, and SOUL.md remain in the root, while all output files are placed under `exports/`. Periodically clean up the `exports/` folder (keep the last 30 days)
-- Do not install any additional libraries or write any extra code.
-- Only use the tools and scripts available within the provided skills if needed.
+- All exported files (images, listings, reports, etc.) are stored in the `exports/` folder instead of the workspace root. Periodically clean up the `exports/` folder (keep the last 1 days)
+- Do not install any additional libraries or write any extra code. Only use the tools and scripts available within the provided skills if needed.
 - I am using WSL Docker on Windows, so ensure consistency between download and upload directories for assets (videos, images, etc.). You must follow the export configuration: save files to the /exports folder (which is mounted to Windows), and uploads must also be selected from this directory.
 - For any steps involving opening the OS file picker, automatically navigate to the path containing files mounted from Docker to Windows, specifically the /exports folder.
