@@ -102,18 +102,18 @@ openclaw browser set device "iPhone 14"
 
 ## 📌 Important Notes
 
-- **`upload` và `dialog`** là arming calls — chạy chúng **trước** khi click/press trigger chooser/dialog.
-- **Download & trace** output paths bị giới hạn trong OpenClaw temp roots:
+- **`upload` and `dialog`** are arming calls — run them **before** clicking/pressing the trigger chooser/dialog.
+- **Download & trace** output paths are restricted within OpenClaw temp roots:
   - traces: `/tmp/openclaw`
   - downloads: `/tmp/openclaw/downloads`
-- **Upload** paths bị giới hạn trong: `/tmp/openclaw/uploads`
-- `upload` cũng có thể set file inputs trực tiếp via `--input-ref` hoặc `--element`.
+- **Upload** paths are restricted to: `/tmp/openclaw/uploads`
+- `upload` can also set file inputs directly via `--input-ref` or `--element`.
 
 ---
 
 ## 🔍 Snapshots & Element References
 
-OpenClaw hỗ trợ hai kiểu snapshot:
+OpenClaw supports two types of snapshots:
 
 ### AI Snapshot (Numeric refs) — default
 
@@ -150,7 +150,7 @@ openclaw browser snapshot --interactive
 
 ## ⏳ Wait Power-ups
 
-Combine nhiều conditions trong một lệnh:
+Combine multiple conditions in one command:
 
 ```bash
 openclaw browser wait "#main" \
@@ -211,8 +211,9 @@ openclaw browser waitfordownload report.pdf               # wait for completion
 ```
 
 **Note on downloading images directly from a webpage without a download button:**
-Nếu user yêu cầu tải ảnh từ web (không có nút download), hãy parse URL của ảnh qua HTML hoặc snapshot, sau đó dùng `curl` hoặc `wget` để tải ảnh đó về server thay vì dùng lệnh browser download.
-Ví dụ:
+If the user requests downloading an image from the web (without a download button or cannot download with the browser), parse the image URL from the HTML or a snapshot, then use curl or wget to download the image to the server instead of using the browser’s download command.
+
+Example:
 
 ```bash
 openclaw browser evaluate --fn '(el) => el.src' --ref e5
@@ -253,3 +254,15 @@ openclaw browser click e8                         # trigger dialog
 - **`references/snapshots_and_refs.md`** — Deep dive into snapshot modes
 - **`references/advanced_actions.md`** — PDF, downloads, file upload, tracing
 - **`references/configuration.md`** — Multi-profile, remote CDP, Playwright setup
+
+## Important Notes
+
+- All actions simulate human behavior (bezier mouse movements, gaussian typing delays)
+- Auto-waits for JS-rendered dynamic content before extraction
+- Use `/snapshot` for most pages, `/scroll_and_snapshot` for infinite scroll
+
+## Execution-first policy
+
+- Use this skill as the mandatory default for all browser tasks (open pages, click elements, type, upload files, download files, scrape content, inspect state, log in, and interact with web apps, etc.)
+- Only fall back to manual guidance if automation was attempted and failed; when that happens, clearly state what was tried and the concrete failure.
+- Keep user-facing responses concise and action-oriented: say what was done and what happened.

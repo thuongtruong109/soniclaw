@@ -1,12 +1,12 @@
 {
   "meta": {
     "lastTouchedVersion": "2026.4.1",
-    "lastTouchedAt": "2026-04-02T03:17:16.412Z"
+    "lastTouchedAt": "2026-04-03T09:00:51.179Z"
   },
   "wizard": {
-    "lastRunAt": "2026-04-02T03:17:16.374Z",
+    "lastRunAt": "2026-04-03T09:00:51.144Z",
     "lastRunVersion": "2026.4.1",
-    "lastRunCommand": "onboard",
+    "lastRunCommand": "doctor",
     "lastRunMode": "local"
   },
   "env": {
@@ -17,7 +17,6 @@
   },
   "browser": {
     "enabled": true,
-    "cdpUrl": "http://192.168.65.254:9222",
     "headless": false,
     "noSandbox": true,
     "defaultProfile": "remote",
@@ -25,9 +24,6 @@
       "dangerouslyAllowPrivateNetwork": true
     },
     "profiles": {
-      "default": {
-        "type": "chromium"
-      },
       "remote": {
         "cdpUrl": "http://192.168.65.254:9222",
         "color": "#Ff0000"
@@ -179,21 +175,8 @@
         "contacts.add",
         "calendar.add",
         "reminders.add",
-        "sms.send"
-      ]
-    }
-  },
-  "security": {
-    "allowlist": {
-      "exec": ["openclaw browser*", "node", "bash"],
-      "browser": [
-        "navigate",
-        "click",
-        "type",
-        "screenshot",
-        "snapshot",
-        "wait",
-        "fill"
+        "sms.send",
+        "sms.search"
       ]
     }
   },

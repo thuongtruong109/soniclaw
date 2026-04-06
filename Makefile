@@ -21,4 +21,4 @@ restart:
 	docker restart $(SERVICE)
 
 clean:
-	rm -rfv -- tmp .openclaw/tasks .openclaw/media .openclaw/logs .openclaw/subagents .openclaw/workspace/memory .openclaw/workspace/exports
+	rm -rfv -- tmp .openclaw/tasks .openclaw/media .openclaw/logs .openclaw/subagents .openclaw/workspace/memory

@@ -5,6 +5,7 @@ Configure OpenClaw browser behavior via `~/.openclaw/openclaw.json`.
 ## Quick Configuration
 
 ### Enable Browser
+
 ```json
 {
   "browser": {
@@ -14,6 +15,7 @@ Configure OpenClaw browser behavior via `~/.openclaw/openclaw.json`.
 ```
 
 ### Show Browser Window
+
 ```json
 {
   "browser": {
@@ -23,6 +25,7 @@ Configure OpenClaw browser behavior via `~/.openclaw/openclaw.json`.
 ```
 
 ### Use Brave Instead of Chrome
+
 ```json
 {
   "browser": {
@@ -32,6 +35,7 @@ Configure OpenClaw browser behavior via `~/.openclaw/openclaw.json`.
 ```
 
 ### Use Different Default Profile
+
 ```json
 {
   "browser": {
@@ -46,26 +50,26 @@ Configure OpenClaw browser behavior via `~/.openclaw/openclaw.json`.
 {
   browser: {
     // Master enable/disable
-    enabled: true,                    // default: true
+    enabled: true, // default: true
 
     // Display settings
-    headless: false,                  // Show window? (default: true)
-    color: "#FF4500",                 // Tab accent color
+    headless: false, // Show window? (default: true)
+    color: "#FF4500", // Tab accent color
 
     // Playwright requirements
-    noSandbox: false,                 // Disable sandbox (Linux/Docker)
-    executablePath: "/usr/bin/brave-browser",  // Chrome/Brave/Edge path
+    noSandbox: false, // Disable sandbox (Linux/Docker)
+    executablePath: "/usr/bin/brave-browser", // Chrome/Brave/Edge path
 
     // Timeout settings
-    remoteCdpTimeoutMs: 1500,         // HTTP timeout for remote CDP
+    remoteCdpTimeoutMs: 1500, // HTTP timeout for remote CDP
     remoteCdpHandshakeTimeoutMs: 3000, // WebSocket handshake timeout
 
     // Default profile
-    defaultProfile: "openclaw",       // "openclaw", "user", or custom
+    defaultProfile: "openclaw", // "openclaw", "user", or custom
 
     // SSRF policy (network access control)
     ssrfPolicy: {
-      dangerouslyAllowPrivateNetwork: true,   // Allow localhost, 192.x, etc
+      dangerouslyAllowPrivateNetwork: true, // Allow localhost, 192.x, etc
       // hostnameAllowlist: ["*.example.com"],  // Whitelist specific hosts
       // allowedHostnames: ["localhost"],       // Exact hostname match
     },
@@ -74,21 +78,21 @@ Configure OpenClaw browser behavior via `~/.openclaw/openclaw.json`.
     profiles: {
       // Managed profile (default)
       openclaw: {
-        cdpPort: 18800,              // Local Chrome DevTools Protocol port
-        color: "#FF4500",            // Tab accent (orange)
+        cdpPort: 18800, // Local Chrome DevTools Protocol port
+        color: "#FF4500", // Tab accent (orange)
       },
 
       // Custom managed profile
       work: {
         cdpPort: 18801,
-        color: "#0066CC",            // Blue
+        color: "#0066CC", // Blue
       },
 
       // Existing session profile (your real Chrome)
       user: {
-        driver: "existing-session",  // Use Chrome MCP to attach
-        attachOnly: true,            // Don't launch, only attach
-        color: "#00AA00",            // Green
+        driver: "existing-session", // Use Chrome MCP to attach
+        attachOnly: true, // Don't launch, only attach
+        color: "#00AA00", // Green
       },
 
       // Brave profile attachment
@@ -120,12 +124,12 @@ Configure OpenClaw browser behavior via `~/.openclaw/openclaw.json`.
 
     // Default snapshot mode
     snapshotDefaults: {
-      mode: "efficient",    // "efficient" or "standard"
+      mode: "efficient", // "efficient" or "standard"
     },
 
     // Evaluate/JavaScript execution
-    evaluateEnabled: true,  // Allow JavaScript evaluation (disable if security concern)
-  }
+    evaluateEnabled: true, // Allow JavaScript evaluation (disable if security concern)
+  },
 }
 ```
 
@@ -137,15 +141,15 @@ Dedicated browser instances with isolated user data.
 
 ```json
 {
-  browser: {
-    profiles: {
-      openclaw: {
-        cdpPort: 18800,
-        color: "#FF4500"
+  "browser": {
+    "profiles": {
+      "openclaw": {
+        "cdpPort": 18800,
+        "color": "#FF4500"
       },
-      work: {
-        cdpPort: 18801,
-        color: "#0066CC"
+      "work": {
+        "cdpPort": 18801,
+        "color": "#0066CC"
       }
     }
   }
@@ -153,12 +157,14 @@ Dedicated browser instances with isolated user data.
 ```
 
 **Characteristics:**
+
 - Always available
 - Isolated from personal data
 - Separate cookies/storage
 - Best for automation
 
 **Usage:**
+
 ```bash
 openclaw browser --browser-profile openclaw navigate https://example.com
 openclaw browser --browser-profile work navigate https://work.example.com
@@ -170,18 +176,18 @@ Attach to your already-running browser with logins intact.
 
 ```json
 {
-  browser: {
-    profiles: {
-      user: {
-        driver: "existing-session",
-        attachOnly: true,
-        color: "#00AA00"
+  "browser": {
+    "profiles": {
+      "user": {
+        "driver": "existing-session",
+        "attachOnly": true,
+        "color": "#00AA00"
       },
-      brave: {
-        driver: "existing-session",
-        attachOnly: true,
-        userDataDir: "~/Library/Application Support/BraveSoftware/Brave-Browser",
-        color: "#FB542B"
+      "brave": {
+        "driver": "existing-session",
+        "attachOnly": true,
+        "userDataDir": "~/Library/Application Support/BraveSoftware/Brave-Browser",
+        "color": "#FB542B"
       }
     }
   }
@@ -189,18 +195,21 @@ Attach to your already-running browser with logins intact.
 ```
 
 **Characteristics:**
+
 - Requires browser running with remote debugging enabled
 - Requires your approval on attach
 - High-trust (can access all logins/data)
 - Best when you're at the computer
 
 **Setup:**
+
 1. Enable remote debugging in browser (e.g., `chrome://inspect`)
 2. Keep browser running
 3. Use profile: `openclaw browser --browser-profile user snapshot`
 4. Approve attach prompt in browser
 
 **Usage:**
+
 ```bash
 # Attach to Chrome
 openclaw browser --browser-profile user navigate https://example.com
@@ -215,11 +224,11 @@ Connect to a Chromium browser running elsewhere (VPS, Docker, etc).
 
 ```json
 {
-  browser: {
-    profiles: {
-      remote: {
-        cdpUrl: "http://10.0.0.42:9222",
-        color: "#FF00FF"
+  "browser": {
+    "profiles": {
+      "remote": {
+        "cdpUrl": "http://10.0.0.42:9222",
+        "color": "#FF00FF"
       }
     }
   }
@@ -227,13 +236,14 @@ Connect to a Chromium browser running elsewhere (VPS, Docker, etc).
 ```
 
 **With authentication:**
+
 ```json
 {
-  browser: {
-    profiles: {
-      remote: {
-        cdpUrl: "https://user:password@provider.example.com:9222",
-        color: "#FF00FF"
+  "browser": {
+    "profiles": {
+      "remote": {
+        "cdpUrl": "https://user:password@provider.example.com:9222",
+        "color": "#FF00FF"
       }
     }
   }
@@ -241,13 +251,14 @@ Connect to a Chromium browser running elsewhere (VPS, Docker, etc).
 ```
 
 **Or with token:**
+
 ```json
 {
-  browser: {
-    profiles: {
-      remote: {
-        cdpUrl: "https://provider.example.com:9222?token=SECRET_TOKEN",
-        color: "#FF00FF"
+  "browser": {
+    "profiles": {
+      "remote": {
+        "cdpUrl": "https://provider.example.com:9222?token=SECRET_TOKEN",
+        "color": "#FF00FF"
       }
     }
   }
@@ -260,15 +271,15 @@ Hosted browser service with CDP endpoints.
 
 ```json
 {
-  browser: {
-    enabled: true,
-    defaultProfile: "browserless",
-    remoteCdpTimeoutMs: 2000,
-    remoteCdpHandshakeTimeoutMs: 4000,
-    profiles: {
-      browserless: {
-        cdpUrl: "https://production-sfo.browserless.io?token=YOUR_KEY",
-        color: "#00AA00"
+  "browser": {
+    "enabled": true,
+    "defaultProfile": "browserless",
+    "remoteCdpTimeoutMs": 2000,
+    "remoteCdpHandshakeTimeoutMs": 4000,
+    "profiles": {
+      "browserless": {
+        "cdpUrl": "https://production-sfo.browserless.io?token=YOUR_KEY",
+        "color": "#00AA00"
       }
     }
   }
@@ -276,6 +287,7 @@ Hosted browser service with CDP endpoints.
 ```
 
 **Get API key:**
+
 1. Sign up at https://browserless.io
 2. Copy API key from dashboard
 3. Paste into `cdpUrl`
@@ -286,15 +298,15 @@ Hosted browser with residential proxies and CAPTCHA solving.
 
 ```json
 {
-  browser: {
-    enabled: true,
-    defaultProfile: "browserbase",
-    remoteCdpTimeoutMs: 3000,
-    remoteCdpHandshakeTimeoutMs: 5000,
-    profiles: {
-      browserbase: {
-        cdpUrl: "wss://connect.browserbase.com?apiKey=YOUR_KEY",
-        color: "#F97316"
+  "browser": {
+    "enabled": true,
+    "defaultProfile": "browserbase",
+    "remoteCdpTimeoutMs": 3000,
+    "remoteCdpHandshakeTimeoutMs": 5000,
+    "profiles": {
+      "browserbase": {
+        "cdpUrl": "wss://connect.browserbase.com?apiKey=YOUR_KEY",
+        "color": "#F97316"
       }
     }
   }
@@ -302,6 +314,7 @@ Hosted browser with residential proxies and CAPTCHA solving.
 ```
 
 **Get API key:**
+
 1. Sign up at https://www.browserbase.com
 2. Copy API Key from Overview
 3. Paste into `cdpUrl`
@@ -311,6 +324,7 @@ Hosted browser with residential proxies and CAPTCHA solving.
 ### Auto-Detection
 
 By default, OpenClaw picks the first available:
+
 1. Chrome
 2. Brave
 3. Edge
@@ -323,8 +337,8 @@ Specify browser executable:
 
 ```json
 {
-  browser: {
-    executablePath: "/usr/bin/brave-browser"
+  "browser": {
+    "executablePath": "/usr/bin/brave-browser"
   }
 }
 ```
@@ -332,24 +346,27 @@ Specify browser executable:
 **Common paths:**
 
 **macOS:**
+
 ```json
 {
-  browser: {
-    executablePath: "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
+  "browser": {
+    "executablePath": "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser"
   }
 }
 ```
 
 **Linux:**
+
 ```json
 {
-  browser: {
-    executablePath: "/usr/bin/brave-browser"
+  "browser": {
+    "executablePath": "/usr/bin/brave-browser"
   }
 }
 ```
 
 **Windows:**
+
 ```json
 {
   browser: {
@@ -366,11 +383,11 @@ Only allow public URLs:
 
 ```json
 {
-  browser: {
-    ssrfPolicy: {
-      dangerouslyAllowPrivateNetwork: false,
-      hostnameAllowlist: ["*.example.com", "example.com"],
-      allowedHostnames: ["localhost"]  // Exact match optional
+  "browser": {
+    "ssrfPolicy": {
+      "dangerouslyAllowPrivateNetwork": false,
+      "hostnameAllowlist": ["*.example.com", "example.com"],
+      "allowedHostnames": ["localhost"] // Exact match optional
     }
   }
 }
@@ -380,9 +397,9 @@ Only allow public URLs:
 
 ```json
 {
-  browser: {
-    ssrfPolicy: {
-      dangerouslyAllowPrivateNetwork: true
+  "browser": {
+    "ssrfPolicy": {
+      "dangerouslyAllowPrivateNetwork": true
     }
   }
 }
@@ -394,8 +411,8 @@ This allows localhost, 127.x, 192.x, 10.x, 172.16-31.x.
 
 ```json
 {
-  browser: {
-    evaluateEnabled: false
+  "browser": {
+    "evaluateEnabled": false
   }
 }
 ```
@@ -408,8 +425,8 @@ For Docker or restricted environments:
 
 ```json
 {
-  browser: {
-    noSandbox: true
+  "browser": {
+    "noSandbox": true
   }
 }
 ```
@@ -422,9 +439,9 @@ For Docker or restricted environments:
 
 ```json
 {
-  browser: {
-    snapshotDefaults: {
-      mode: "efficient"
+  "browser": {
+    "snapshotDefaults": {
+      "mode": "efficient"
     }
   }
 }
@@ -436,9 +453,9 @@ Reduces snapshot output by 50-70% via compact mode.
 
 ```json
 {
-  browser: {
-    remoteCdpTimeoutMs: 5000,
-    remoteCdpHandshakeTimeoutMs: 10000
+  "browser": {
+    "remoteCdpTimeoutMs": 5000,
+    "remoteCdpHandshakeTimeoutMs": 10000
   }
 }
 ```
@@ -447,8 +464,8 @@ Reduces snapshot output by 50-70% via compact mode.
 
 ```json
 {
-  browser: {
-    headless: true
+  "browser": {
+    "headless": true
   }
 }
 ```
@@ -461,10 +478,10 @@ If you run an OpenClaw node on the machine with your browser:
 
 ```json
 {
-  gateway: {
-    nodes: {
-      browser: {
-        mode: "auto"  // or "off" to disable proxy
+  "gateway": {
+    "nodes": {
+      "browser": {
+        "mode": "auto" // or "off" to disable proxy
       }
     }
   }
@@ -479,11 +496,11 @@ This routes browser commands to the node's local browser automatically.
 
 ```json
 {
-  browser: {
-    enabled: true,
-    headless: false,
-    noSandbox: true,
-    executablePath: "/usr/bin/chromium"
+  "browser": {
+    "enabled": true,
+    "headless": false,
+    "noSandbox": true,
+    "executablePath": "/usr/bin/chromium"
   }
 }
 ```
@@ -492,11 +509,11 @@ This routes browser commands to the node's local browser automatically.
 
 ```json
 {
-  browser: {
-    enabled: true,
-    profiles: {
-      remote: {
-        cdpUrl: "http://chromium-service:9222"
+  "browser": {
+    "enabled": true,
+    "profiles": {
+      "remote": {
+        "cdpUrl": "http://chromium-service:9222"
       }
     }
   }
@@ -587,10 +604,10 @@ docker compose run --rm openclaw-cli \
 
 ```json
 {
-  browser: {
-    enabled: true,
-    headless: false,
-    defaultProfile: "openclaw"
+  "browser": {
+    "enabled": true,
+    "headless": false,
+    "defaultProfile": "openclaw"
   }
 }
 ```
@@ -599,15 +616,15 @@ docker compose run --rm openclaw-cli \
 
 ```json
 {
-  browser: {
-    enabled: true,
-    headless: true,
-    defaultProfile: "openclaw",
-    ssrfPolicy: {
-      dangerouslyAllowPrivateNetwork: false,
-      hostnameAllowlist: ["example.com"]
+  "browser": {
+    "enabled": true,
+    "headless": true,
+    "defaultProfile": "openclaw",
+    "ssrfPolicy": {
+      "dangerouslyAllowPrivateNetwork": false,
+      "hostnameAllowlist": ["example.com"]
     },
-    evaluateEnabled: false
+    "evaluateEnabled": false
   }
 }
 ```
@@ -630,13 +647,13 @@ docker compose run --rm openclaw-cli \
 
 ```json
 {
-  browser: {
-    defaultProfile: "user",
-    profiles: {
-      openclaw: { cdpPort: 18800 },
-      user: {
-        driver: "existing-session",
-        attachOnly: true
+  "browser": {
+    "defaultProfile": "user",
+    "profiles": {
+      "openclaw": { "cdpPort": 18800 },
+      "user": {
+        "driver": "existing-session",
+        "attachOnly": true
       }
     }
   }
@@ -647,14 +664,14 @@ docker compose run --rm openclaw-cli \
 
 ```json
 {
-  browser: {
-    enabled: true,
-    headless: true,
-    defaultProfile: "browserless",
-    profiles: {
-      browserless: {
-        cdpUrl: "https://production-sfo.browserless.io?token=${BROWSERLESS_TOKEN}",
-        color: "#00AA00"
+  "browser": {
+    "enabled": true,
+    "headless": true,
+    "defaultProfile": "browserless",
+    "profiles": {
+      "browserless": {
+        "cdpUrl": "https://production-sfo.browserless.io?token=${BROWSERLESS_TOKEN}",
+        "color": "#00AA00"
       }
     }
   }

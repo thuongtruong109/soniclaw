@@ -23,7 +23,7 @@ mkdir -p /root/.openclaw
 
 if [ -f /root/.openclaw/openclaw.json ]; then
     jq --arg url "$CDP_URL" \
-       '.browser.cdpUrl = $url | .browser.profiles.remote.cdpUrl = $url | .browser.enabled = true' \
+       '.browser.profiles.remote.cdpUrl = $url' \
        /root/.openclaw/openclaw.json > /root/.openclaw/openclaw.tmp.json
     mv /root/.openclaw/openclaw.tmp.json /root/.openclaw/openclaw.json
 else
@@ -31,7 +31,6 @@ else
 {
   "browser": {
     "enabled": true,
-    "cdpUrl": "$CDP_URL",
     "defaultProfile": "remote",
     "headless": false,
     "noSandbox": true,

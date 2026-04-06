@@ -7,16 +7,19 @@ Helper scripts để setup và manage browser automation trong OpenClaw.
 **Dùng khi:** Bạn có WSL2 + Windows + Chrome, cần setup kết nối lần đầu
 
 **Chạy:**
+
 ```bash
 ./setup-remote-cdp.sh
 ```
 
 **Tham số:**
+
 - `[windows-host]` — IP/hostname của Windows (auto-detect nếu không cung cấp)
 - `[port]` — Chrome CDP port, mặc định 9222
 - `[config-file]` — Config file path, mặc định `.openclaw.json`
 
 **Ví dụ:**
+
 ```bash
 # Auto-detect tất cả
 ./setup-remote-cdp.sh
@@ -32,6 +35,7 @@ Helper scripts để setup và manage browser automation trong OpenClaw.
 ```
 
 **Những gì nó làm:**
+
 1. Auto-detect Windows host từ WSL2 `/etc/resolv.conf`
 2. Test kết nối tới Chrome CDP
 3. Update `.openclaw.json` với `cdpUrl`
@@ -44,6 +48,7 @@ Helper scripts để setup và manage browser automation trong OpenClaw.
 **Dùng khi:** Bạn muốn dùng Node.js script thay vì bash
 
 **Chạy:**
+
 ```bash
 node setup-cdp.mjs
 # hoặc
@@ -51,12 +56,14 @@ node setup-cdp.mjs
 ```
 
 **Tính năng:**
+
 - Auto-detect Windows host từ WSL2
 - Test 3 host candidates: detected + `127.0.0.1` + `localhost`
 - Pretty-printed output với colors
 - Tự động config SSRF policy cho private network
 
 **Output:**
+
 ```
 ✓ Detected Windows host: 172.17.48.1
 ✓ Connected!
@@ -68,12 +75,12 @@ node setup-cdp.mjs
 
 ## Quick Decision Tree
 
-| Situation | Use This |
-|-----------|----------|
-| WSL2 + Windows + Chrome | `setup-remote-cdp.sh` hoặc `setup-cdp.mjs` |
-| Just need to update `.openclaw.json` | Edit file manually |
-| Want to verify CDP connection | `curl http://WINDOWS_HOST:9222/json/version` |
-| Need to debug network issues | Xem docs: https://docs.openclaw.ai/tools/browser-wsl2-windows-remote-cdp-troubleshooting |
+| Situation                            | Use This                                                                                 |
+| ------------------------------------ | ---------------------------------------------------------------------------------------- |
+| WSL2 + Windows + Chrome              | `setup-remote-cdp.sh` hoặc `setup-cdp.mjs`                                               |
+| Just need to update `.openclaw.json` | Edit file manually                                                                       |
+| Want to verify CDP connection        | `curl http://WINDOWS_HOST:9222/json/version`                                             |
+| Need to debug network issues         | Xem docs: https://docs.openclaw.ai/tools/browser-wsl2-windows-remote-cdp-troubleshooting |
 
 ---
 
@@ -95,6 +102,7 @@ Nếu scripts không thành công, edit `.openclaw.json`:
 ```
 
 Replace `WINDOWS_HOST` với:
+
 - `127.0.0.1` — nếu trên Windows
 - `172.17.48.1` — common WSL2 gateway
 - `hostname.local` — nếu dùng mDNS
@@ -172,6 +180,7 @@ Nếu bạn muốn customize hơn, edit `.openclaw.json` sau khi script chạy:
 ```
 
 Rồi dùng:
+
 ```bash
 openclaw browser --browser-profile remote navigate https://example.com
 ```
@@ -183,3 +192,5 @@ openclaw browser --browser-profile remote navigate https://example.com
 - OpenClaw docs: https://docs.openclaw.ai
 - Browser-WSL2-Windows troubleshooting: https://docs.openclaw.ai/tools/browser-wsl2-windows-remote-cdp-troubleshooting
 - Issues: https://github.com/openclaw/openclaw/issues
+
+<!-- netsh interface portproxy add v4tov4 listenport=9222 listenaddress=0.0.0.0 connectport=56039 connectaddress=127.0.0.1 -->
