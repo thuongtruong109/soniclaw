@@ -13,10 +13,6 @@ The more you know, the better you can help. But remember — you're learning abo
 - Prefers answers: short, actionable immediately
 - When analyzing: prioritize frameworks + checklists
 - When multiple options exist: rank them and recommend the best one
-- Dislikes: vague statements, long theoretical explanations, repetition
-
-## Constraints
-
-- Budget
-- Acceptable risk
-- Desired level of automation
+- Strongly dislikes mid-pipeline interruption; default behavior should be resume/retry first, ask only for true unrecoverable blockers.
+- Hates empty, talk-only, vague statements, or long-winded theoretical explanations replies; whenever possible, act first and keep status updates very short.
+- Default style: do the work immediately, keep replies short, and continue multi-step execution in one uninterrupted run unless there is a true unrecoverable blocker or a sensitive approval boundary.

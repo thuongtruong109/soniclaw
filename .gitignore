@@ -8,6 +8,7 @@ notes
 .openclaw/*
 !.openclaw/workspace
 .openclaw/workspace/*
+!.openclaw/workspace-browser-worker
 !.openclaw/openclaw.json
 !.openclaw/workspace/skills
 !.openclaw/workspace/*.md

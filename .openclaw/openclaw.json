@@ -45,6 +45,7 @@
   },
   "agents": {
     "defaults": {
+      "workspace": "/root/.openclaw/workspace",
       "model": {
         "primary": "openai-codex/gpt-5.4",
         "fallbacks": [
@@ -57,7 +58,6 @@
         "anthropic/claude-sonnet-4-6": {},
         "anthropic/claude-haiku-4-5": {}
       },
-      "workspace": "/root/.openclaw/workspace",
       "heartbeat": {
         "every": "24h",
         "lightContext": true
@@ -75,24 +75,56 @@
         "id": "main",
         "default": true,
         "identity": {
-          "name": "CEO",
-          "theme": "Professional work assistant 💼",
-          "emoji": "💼"
+          "name": "Atlas",
+          "theme": "Professional assistant 🐙",
+          "emoji": "🐙"
+        },
+        "tools": {
+          "allow": [
+            "group:fs",
+            "group:runtime",
+            "group:ui",
+            "group:sessions",
+            "group:memory"
+          ],
+          "sandbox": {
+            "tools": {
+              "alsoAllow": ["group:ui"]
+            }
+          }
+        },
+        "params": {
+          "cacheRetention": "none"
         }
       },
       {
-        "id": "light",
-        "workspace": "~/.openclaw/workspace-light",
+        "id": "browser-worker",
+        "workspace": "~/.openclaw/workspace-browser-worker",
         "identity": {
-          "name": "Atlas",
-          "theme": "Personal assistant 🐙",
-          "emoji": "🐙"
+          "name": "Browser Worker",
+          "theme": "Dedicated browser execution",
+          "emoji": "🌐"
         },
         "model": {
           "primary": "anthropic/claude-haiku-4-5"
         },
         "params": {
           "cacheRetention": "none"
+        },
+        "tools": {
+          "profile": "full",
+          "allow": [
+            "group:ui",
+            "group:fs",
+            "group:runtime",
+            "group:sessions",
+            "group:memory"
+          ],
+          "sandbox": {
+            "tools": {
+              "alsoAllow": ["group:ui"]
+            }
+          }
         }
       }
     ]
@@ -112,7 +144,7 @@
       "security": "full",
       "ask": "off"
     },
-    "allow": ["exec"]
+    "allow": ["exec", "browser", "group:ui", "process", "read", "write", "edit"]
   },
   "commands": {
     "text": true,
