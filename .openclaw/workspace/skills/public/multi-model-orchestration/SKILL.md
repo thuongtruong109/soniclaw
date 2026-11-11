@@ -1,9 +1,9 @@
 ---
-name: multi-model-orchestration-template
+name: multi-model-orchestration
 description: Use when a workflow should split work across different models by step, usually via sub-agents or delegated tasks. Best for tasks where cheap/fast steps and high-quality reasoning steps should use different models. Teaches how to structure main-agent, sub-agent, and tool-driven flows with explicit model choices.
 ---
 
-# Multi-Model Orchestration Template
+# Multi-Model Orchestration
 
 Use this skill when one workflow should intentionally use different models for different stages.
 
@@ -15,6 +15,7 @@ Model selection happens when you delegate work through a mechanism that supports
 ## When to use multi-model orchestration
 
 Use it when the workflow has clearly different step types, for example:
+
 - cheap classification first, expensive synthesis later
 - broad scraping first, deep reasoning later
 - repetitive formatting first, careful final writing later
@@ -25,6 +26,7 @@ Use it when the workflow has clearly different step types, for example:
 Split work into 3 lanes:
 
 1. **Main agent lane**
+
 - Owns user context
 - Decides routing
 - Calls tools
@@ -32,6 +34,7 @@ Split work into 3 lanes:
 - Writes final answer
 
 2. **Fast/cheap lane**
+
 - Use a lower-cost or default model
 - Best for:
   - triage
@@ -41,6 +44,7 @@ Split work into 3 lanes:
   - repetitive batch steps
 
 3. **Strong reasoning lane**
+
 - Use a stronger model such as `sonnet`
 - Best for:
   - planning
@@ -52,12 +56,14 @@ Split work into 3 lanes:
 ## Recommended decision framework
 
 Before delegating, classify each step by:
+
 - **cost sensitivity**: low / medium / high
 - **reasoning depth**: shallow / medium / deep
 - **risk of mistakes**: low / medium / high
 - **need for user-context continuity**: low / high
 
 Then route:
+
 - shallow + low risk → default or cheaper model
 - deep reasoning or high stakes → stronger model
 - actions touching user context / external side effects → main agent supervises
@@ -69,6 +75,7 @@ Then route:
 Use when only one phase needs a better model.
 
 Example:
+
 1. Main agent gathers inputs.
 2. Main agent delegates planning/synthesis to sub-agent with `sonnet`.
 3. Main agent executes tools and returns final result.
@@ -78,6 +85,7 @@ Example:
 Use when many items need light processing, then one final synthesis step.
 
 Example:
+
 1. Main agent splits items.
 2. Fast lane processes each item.
 3. Strong lane synthesizes results.
@@ -88,6 +96,7 @@ Example:
 Use when browser/tool work is deterministic but interpretation is not.
 
 Example:
+
 1. Main agent performs browser automation and data capture.
 2. Strong lane analyzes the captured data.
 3. Main agent applies the analysis back into tools or final response.
@@ -124,16 +133,19 @@ For N similar inputs, do lightweight extraction first. After collecting structur
 ## Example mapping
 
 ### Example 1: Research workflow
+
 - Search + scrape → default model
 - Compare options and rank → `sonnet`
 - Final concise recommendation → main agent
 
 ### Example 2: Browser automation workflow
+
 - Navigate/click/upload/download → default model
 - Interpret messy page results / summarize findings → `sonnet`
 - Confirm final files and report status → main agent
 
 ### Example 3: Inbox triage workflow
+
 - Message classification → default model
 - Sensitive reply drafting → `sonnet`
 - Sending / routing → main agent
@@ -149,6 +161,7 @@ For N similar inputs, do lightweight extraction first. After collecting structur
 ## Minimal authoring checklist
 
 When adapting this template into a real skill, define:
+
 - which steps stay on the main/default model
 - which steps should use a stronger model
 - what input/output contract each delegated step must follow
