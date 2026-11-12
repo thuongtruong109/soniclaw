@@ -84,10 +84,14 @@
         }
       },
       "browser-worker": {
-        "workspace": "~/.openclaw/workspace",
+        "workspace": "~/.openclaw/workspace-browser-worker",
         "identity": {
           "name": "Browser Worker",
-          "theme": "Dedicated browser execution"
+          "theme": "Dedicated browser execution",
+          "emoji": "🌐"
+        },
+        "model": {
+          "primary": "anthropic/claude-haiku-5.5"
         },
         "tools": {
           "profile": "full",
@@ -96,6 +100,7 @@
             "group:fs",
             "group:runtime",
             "group:sessions",
+            "group:memory",
             "skill_workshop"
           ],
           "sandbox": {

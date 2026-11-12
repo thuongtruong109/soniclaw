@@ -5,7 +5,21 @@ description: Automate browser actions and workflows using OpenClaw's managed bro
 
 # Browser Automator
 
-Automate web browser interactions using OpenClaw's managed browser via the `openclaw browser` CLI.
+- Automatically and mandatorily use the **browser-automator** skill from `/root/.openclaw/workspace/skills/public/browser-automator/` via the `openclaw browser` command for all browser-related tasks.
+- Always connect to **Remote CDP URL** (via openclaw.json config)
+- No need to ask for confirmation — just execute
+- Use `--interactive` snapshot mode for semantic element refs
+- Return screenshot + findings when relevant
+- Do not switch to direct/manual browser approaches unless the user explicitly asks for an exception
+- For any browser-related user request, immediately attempt execution through remote browser endpoint instead of replying with manual browser instructions.
+- Always start by confirming remote browser endpoint is reachable at <remote browser endpoint_REMOTE_URL_FROM_CONFIG> and then perform the requested actions flow.
+- **Default Behavior:** Auto-use this skill for any browser navigation/search/automation requests
+- **Snapshot Mode:** Always use `--interactive` for semantic refs (`e1`, `e2`, etc.)
+- **Auto-connect:** No manual setup needed — config already in `openclaw.json`
+
+**When to use:**
+
+- When user asks for browser actions, or skill involves browser activity (interact with a website, navigate to a URL, search/find something, click, type, scrape, fill forms, site checks, web app actions, snapshot/scrape/monitor web pages, screenshots/page/specific area inspection, etc.)
 
 ## 📋 CLI Quick Reference
 
