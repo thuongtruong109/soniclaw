@@ -1,15 +1,24 @@
 services:
   soniclaw:
     image: thuongtruong1009/soniclaw:latest
-    container_name: soniclaw
     build: .
     ports:
       - "18789:18789"
     restart: unless-stopped
     stdin_open: true
     tty: true
+    # Reap the child processes the Gateway spawns (agents, workers, browser bridge).
+    init: true
+    # Let SQLite close cleanly instead of being killed mid-checkpoint.
+    stop_grace_period: 30s
     volumes:
+      # OpenClaw writes its config/state files with an atomic temp-file + rename,
+      # then fstat()s the still-open handle. That fails with ENOENT on Windows
+      # bind mounts (Docker Desktop / grpcfuse), which breaks `openclaw doctor --fix`
+      # and the Gateway never starts. Keep the live state on a real Linux volume.
       - openclaw-data:/root/.openclaw
+      # The repo copy of .openclaw is only a seed: it is imported into the volume
+      # the first time the container starts (see entrypoint.sh).
       - ./.openclaw:/seed:ro
     environment:
       - NODE_ENV=production
@@ -17,9 +26,11 @@ services:
     mem_limit: 2g
     healthcheck:
       test: ["CMD", "curl", "-fsS", "http://127.0.0.1:18789/healthz"]
-      interval: 60s
+      interval: 30s
       timeout: 10s
       retries: 3
+      # Gateway boot (doctor + migrations + first ready) takes ~30-60s.
+      start_period: 90s
 
 volumes:
   openclaw-data:
