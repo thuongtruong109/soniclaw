@@ -1,8 +1,8 @@
 # USER.md - About Your Human
 
-- **Name:** Ahihi
+- **Name:** Your Name
 - **What to call them:** You
-- **Timezone:** Asia/Ho_Chi_Minh
+- **Timezone:** UTC
 
 ## Context
 

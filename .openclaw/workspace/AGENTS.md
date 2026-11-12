@@ -46,7 +46,7 @@ Capture what matters. Decisions, context, things to remember. Skip the secrets u
 
 ## Config policy
 
-- All exported files (images, listings, reports, etc.) are stored in the `exports/` folder instead of the workspace root. Periodically clean up the `exports/` folder (keep the last 1 days)
+- All exported files (images, listings, reports, etc.) get written to `exports/` inside the workspace (`/root/.openclaw/workspace/exports/`) instead of the workspace root. Periodically clean up that folder (keep the last day).
 - Do not install any additional libraries or write any extra code. Only use the tools and scripts available within the provided skills if needed.
-- I am using WSL Docker on Windows, so ensure consistency between download and upload directories for assets (videos, images, etc.). You must follow the export configuration: save files to the /exports folder (which is mounted to Windows), and uploads must also be selected from this directory.
-- For any steps involving opening the OS file picker, automatically navigate to the path containing files mounted from Docker to Windows, specifically the /exports folder.
+- The agent runs in Docker; the host copies exported files out with `make pull-exports` (which writes them to `./exports` in the repo). Always save exports to `exports/` so they can be pulled.
+- When a step needs the OS file picker, the files to upload must first be copied into the workspace (e.g. via `docker compose cp`), because the container filesystem is not visible to the host.

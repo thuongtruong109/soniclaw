@@ -1,0 +1,17 @@
+# Normalize text files to LF so the image entrypoint keeps a valid shebang even
+# on Windows clones (core.autocrlf=true would otherwise write CRLF into *.sh).
+* text=auto eol=lf
+
+# Windows-only helper scripts.
+*.vbs text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary assets must never be converted.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.pdf binary

@@ -23,7 +23,7 @@
     },
     "profiles": {
       "remote": {
-        "cdpUrl": "http://192.168.65.254:9222"
+        "cdpUrl": "http://host.docker.internal:9222"
       }
     }
   },
@@ -33,10 +33,9 @@
         "provider": "anthropic",
         "mode": "api_key"
       },
-      "openai:khuongoanhquachoanh1659@outlook.com": {
+      "openai:default": {
         "provider": "openai",
-        "mode": "oauth",
-        "email": "khuongoanhquachoanh1659@outlook.com"
+        "mode": "oauth"
       }
     }
   },
@@ -97,7 +96,7 @@
             "group:fs",
             "group:runtime",
             "group:sessions",
-            "group:memory"
+            "skill_workshop"
           ],
           "sandbox": {
             "tools": {
@@ -106,9 +105,6 @@
               ]
             }
           }
-        },
-        "params": {
-          "cacheRetention": "none"
         }
       },
       "light": {
@@ -120,9 +116,6 @@
         },
         "model": {
           "primary": "anthropic/claude-haiku-5.5"
-        },
-        "params": {
-          "cacheRetention": "none"
         }
       },
       "pro": {
@@ -134,9 +127,6 @@
         },
         "model": {
           "primary": "anthropic/claude-sonnet-5.5"
-        },
-        "params": {
-          "cacheRetention": "none"
         }
       }
     }
@@ -159,7 +149,8 @@
       "process",
       "read",
       "write",
-      "edit"
+      "edit",
+      "skill_workshop"
     ]
   },
   "commands": {
@@ -281,11 +272,5 @@
       "codex",
       "openai"
     ]
-  },
-  "wizard": {
-    "lastRunAt": "2026-11-11T07:19:08.309Z",
-    "lastRunVersion": "2026.11.2",
-    "lastRunCommand": "doctor",
-    "lastRunMode": "local"
   }
 }
