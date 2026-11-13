@@ -97,24 +97,42 @@ make cmd gateway auth-token --show
 
 ## Ports
 
-| Port    | Where            | Purpose                        |
-| ------- | ---------------- | ------------------------------ |
-| `18789` | container (published) | OpenClaw Gateway + Control UI |
-| `9222`  | host only        | Chrome remote debugging (CDP)  |
+| Port    | Where            | Purpose                              |
+| ------- | ---------------- | ------------------------------------ |
+| `18789` | container (published) | OpenClaw Gateway + Control UI   |
+| `8080`  | container (published) | OAuth callback for "Sign in with ChatGPT (Beta)" |
+| `1455`  | container (published) | OAuth callback for "Codex login (browser)" |
+| `9222`  | host only        | Chrome remote debugging (CDP)        |
 
 The CDP port is deliberately not published: the container reaches it through
 `host.docker.internal`.
+
+### Why 8080 and 1455 are published
+
+OpenAI hardcodes the OAuth redirect to `http://localhost:8080/auth/callback`
+(Sign in with ChatGPT) and `http://localhost:1455/auth/callback` (Codex browser
+login), and OpenClaw binds those listeners on **loopback inside the container**.
+A published Docker port only reaches the container's `eth0` address, so the
+browser redirect used to fail with `ERR_CONNECTION_REFUSED`.
+
+The `oauth-forward` sidecar shares the gateway's network namespace and pipes
+container ports `18080`/`11455` to `127.0.0.1:8080`/`127.0.0.1:1455`, which the
+published `8080`/`1455` host ports point at. Both browser logins therefore work
+with no extra steps. If the stack predates this change, `make siwc-callback`
+replays a failed redirect from inside the container instead.
 
 ## Project Structure
 
 ```text
 .
 ├── Dockerfile           # pinned OpenClaw image
-├── docker-compose.yml   # service, port, healthcheck, volume
+├── docker-compose.yml   # services, ports, healthcheck, volume
 ├── entrypoint.sh        # seed volume, token bootstrap, doctor, gateway
 ├── chrome.vbs           # launch Windows Chrome with CDP
 ├── Makefile             # run/stop/logs/doctor/config helpers
 ├── LICENSE
+├── scripts/
+│   └── oauth-callback-forward.mjs  # loopback OAuth bridge for the sidecar
 └── .openclaw/           # seed template (imported on first start only)
     ├── .env.example
     ├── openclaw.json
@@ -181,7 +199,20 @@ the detected Windows host IP:
 
 The seed config uses `openai/gpt-6.1-sol` (Codex runtime) with Anthropic
 fallbacks. A fresh volume has no credentials yet, so `openclaw doctor` reports a
-missing `openai:default` profile until you sign in once:
+missing `openai:default` profile until you sign in once.
+
+Browser logins work from the host thanks to the `oauth-forward` sidecar (see
+[Ports](#why-8080-and-1455-are-published)):
+
+```bash
+# Sign in with ChatGPT (Beta) - opens http://localhost:8080/auth/callback
+make cmd models auth login --provider openai
+
+# Codex login (browser) - opens http://localhost:1455/auth/callback
+make cmd models auth login --provider openai --method browser
+```
+
+Headless / scripted alternative that never opens a browser:
 
 ```bash
 make cmd models auth login --provider openai --method device-code
@@ -203,6 +234,8 @@ make restart
 | `make stop`         | Stop the container                                 |
 | `make restart`      | Restart the container                              |
 | `make logs`         | Follow container logs                              |
+| `make oauth-forward-logs` | Follow the OAuth bridge sidecar logs         |
+| `make siwc-callback URL=...` | Replay a failed OAuth redirect inside the container |
 | `make shell`        | Open a shell in the container                      |
 | `make doctor`       | Run `openclaw doctor --fix`                        |
 | `make cmd <args>`   | Run an OpenClaw CLI command (`make cmd gateway status`) |

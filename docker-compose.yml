@@ -4,6 +4,13 @@ services:
     build: .
     ports:
       - "18789:18789"
+      # OpenAI OAuth callbacks are hardcoded to http://localhost:8080 and
+      # http://localhost:1455, and OpenClaw binds them on loopback *inside* the
+      # container. These published ports are fed by the oauth-forward sidecar
+      # below, which republishes those loopback listeners on the container
+      # network. See scripts/oauth-callback-forward.mjs.
+      - "8080:18080" # Sign in with ChatGPT (Beta)
+      - "1455:11455" # Codex login (browser)
     restart: unless-stopped
     stdin_open: true
     tty: true
@@ -31,6 +38,20 @@ services:
       retries: 3
       # Gateway boot (doctor + migrations + first ready) takes ~30-60s.
       start_period: 90s
+
+  # Bridges the OAuth loopback listeners (127.0.0.1:8080 and 127.0.0.1:1455
+  # inside the gateway) to the published host ports above, so the Windows
+  # browser can finish "Sign in with ChatGPT (Beta)" and "Codex login (browser)".
+  oauth-forward:
+    image: thuongtruong1009/soniclaw:latest
+    # Same network namespace as the gateway: 127.0.0.1 is shared.
+    network_mode: "service:soniclaw"
+    entrypoint: ["node", "/oauth-callback-forward.mjs"]
+    restart: unless-stopped
+    init: true
+    mem_limit: 64m
+    volumes:
+      - ./scripts/oauth-callback-forward.mjs:/oauth-callback-forward.mjs:ro
 
 volumes:
   openclaw-data:

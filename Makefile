@@ -1,6 +1,6 @@
 SERVICE ?= soniclaw
 
-.PHONY: cmd chrome run stop restart shell logs doctor config-pull config-push pull-exports clean reset
+.PHONY: cmd chrome run stop restart shell logs doctor oauth-forward-logs siwc-callback config-pull config-push pull-exports clean reset
 
 # Run an OpenClaw CLI command inside the container, e.g.:
 #   make cmd gateway status
@@ -30,6 +30,22 @@ shell:
 
 logs:
 	docker compose logs -f $(SERVICE)
+
+# The sidecar that makes the OAuth loopback callbacks reachable from Windows.
+oauth-forward-logs:
+	docker compose logs -f oauth-forward
+
+# Fallback for "Sign in with ChatGPT (Beta)" without restarting the stack.
+# After the browser shows ERR_CONNECTION_REFUSED, copy the full URL from the
+# address bar and replay it from inside the container:
+#   make siwc-callback URL="http://localhost:8080/auth/callback?code=...&state=..."
+CALLBACK_URL := $(subst //localhost:,//127.0.0.1:,$(URL))
+siwc-callback:
+	@test -n "$(URL)" || { \
+		echo 'usage: make siwc-callback URL="http://localhost:8080/auth/callback?code=...&state=..."'; \
+		exit 1; \
+	}
+	docker compose exec -T $(SERVICE) sh -c "curl -fsS '$(CALLBACK_URL)'"
 
 doctor:
 	docker compose exec $(SERVICE) openclaw doctor --fix
